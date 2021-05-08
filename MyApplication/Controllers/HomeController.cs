@@ -6,6 +6,9 @@ using System.Web;
 using System.Web.Mvc;
 using MyApplication.Models;
 using System.Security.Cryptography;
+using System.Configuration;
+using System.Data.SqlClient;
+
 namespace MyApplication.Controllers
 {
     public class HomeController : Controller
@@ -24,14 +27,117 @@ namespace MyApplication.Controllers
             }
         }
 
+
+
+
+
+
+
+
+
+
+        public MainPageModel getMainPageModel(string idKey)
+        {
+            string connString = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=Authentication;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\Authentication.mdf";
+            var con = ConfigurationManager.ConnectionStrings[connString].ToString();
+
+            MainPageModel matchingPerson = new MainPageModel();
+            using (SqlConnection myConnection = new SqlConnection(con))
+            {
+                string oString = "Select * from Users where id=@idKey";
+                SqlCommand oCmd = new SqlCommand(oString, myConnection);
+                oCmd.Parameters.AddWithValue("@idKey", idKey);
+                myConnection.Open();
+                using (SqlDataReader oReader = oCmd.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {
+                        matchingPerson.id = oReader["id"].ToString();
+                        matchingPerson.FirstName = oReader["FirstName"].ToString();
+                        matchingPerson.LastName = oReader["LastName"].ToString();
+                        matchingPerson.Email = oReader["Email"].ToString();
+                        matchingPerson.Password = oReader["Password"].ToString();
+                        matchingPerson.TelNo = oReader["TelNo"].ToString();
+                        matchingPerson.CellNo = oReader["CellNo"].ToString();
+                        matchingPerson.AddressLine1 = oReader["AddressLine1"].ToString();
+                        matchingPerson.AddressLine2 = oReader["AddressLine2"].ToString();
+                        matchingPerson.AddressLine3 = oReader["AddressLine3"].ToString();
+                        matchingPerson.AddressCode = oReader["AddressCode"].ToString();
+                        matchingPerson.PostalAddress1 = oReader["PostalAddress1"].ToString();
+                        matchingPerson.PostalAddress2 = oReader["PostalAddress2"].ToString();
+                        matchingPerson.PostalCode = oReader["PostalCode"].ToString();
+                    }
+                    myConnection.Close();
+                }
+            }
+            return matchingPerson;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult Index(MainPageModel mpm)
         {
+            Info inf = mpm.makeInfo();
+            User usr = mpm.makeUser();
+
+            usr.FirstName = "Dean";
+            usr.LastName = "Popovic";
+            usr.idUser = 1;
+            inf.infoId = 1;
+            inf.idUser = 1;
+
+            if (ModelState.IsValid)
+            {
+                var check = _db.Users.FirstOrDefault(s => s.Email == usr.Email);
+                if (check == null)
+                {
+                    usr.Password = GetMD5(usr.Password);
+                    _db.Configuration.ValidateOnSaveEnabled = false;
+                    _db.Users.Add(usr);
+                    _db.Infos.Add(inf);
+                    //_db.Entry(_user).State = System.Data.Entity.EntityState.Modified;//Add in Later
+                    _db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.error = "Email already exists";
+                    return View();
+                }
+            }
+            return View();
+
+
+
+
             //if (mpm.Model1.id == "123") {
             //    Environment.Exit(-1);
             //}
-
             return base.Content("<div>Hello</div>", "text/html");
         }
 
@@ -101,7 +207,10 @@ namespace MyApplication.Controllers
                     Session["FullName"] = data.FirstOrDefault().FirstName + " " + data.FirstOrDefault().LastName;
                     Session["Email"] = data.FirstOrDefault().Email;
                     Session["idUser"] = data.FirstOrDefault().idUser;
-                    return RedirectToAction("Index");
+
+                    //get info from database store it in object A calls a cotnroller
+
+                    return RedirectToAction("Index");//Pass in A as paramater
                 }
                 else
                 {

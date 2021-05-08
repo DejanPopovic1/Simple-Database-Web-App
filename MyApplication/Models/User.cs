@@ -10,7 +10,7 @@ namespace MyApplication.Models
     public class User
     {
         [Key, Column(Order = 1)]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        //[DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int idUser { get; set; }
         [Required]
         [StringLength(50, MinimumLength = 3)]

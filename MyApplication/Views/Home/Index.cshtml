@@ -4,6 +4,7 @@
 
 @model MyApplication.Models.MainPageModel
 
+
 @*@{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -36,77 +37,77 @@
             <div class="card-body">
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Model1.id)
-                    @Html.TextBoxFor(m => m.Model1.id, new { @class = "form-control", @placeholder = "ID" })
-                    @Html.ValidationMessageFor(m => m.Model1.id, "", new { @class = "badge badge-danger" })
+                    @Html.LabelFor(m => m.id)
+                    @Html.TextBoxFor(m => m.id, new { @class = "form-control", @placeholder = "ID" })
+                    @Html.ValidationMessageFor(m => m.id, "", new { @class = "badge badge-danger" })
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Model1.Password)
-                    @Html.PasswordFor(m => m.Model1.Password, new { @class = "form-control", @placeholder = "Password" })
-                    @Html.ValidationMessageFor(m => m.Model1.Password, "", new { @class = "badge badge-danger" })
+                    @Html.LabelFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "badge badge-danger" })
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Model2.TelNo)
-                    @Html.TextBoxFor(m => m.Model2.TelNo, new { @class = "form-control", @placeholder = "" })
-                    @Html.ValidationMessageFor(m => m.Model2.TelNo, "", new { @class = "badge badge-danger" })
-                </div>
-
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Model2.CellNo)
-                    @Html.TextBoxFor(m => m.Model2.CellNo, new { @class = "form-control", @placeholder = "" })
-                    @Html.ValidationMessageFor(m => m.Model2.CellNo, "", new { @class = "badge badge-danger" })
+                    @Html.LabelFor(m => m.TelNo)
+                    @Html.TextBoxFor(m => m.TelNo, new { @class = "form-control", @placeholder = "" })
+                    @Html.ValidationMessageFor(m => m.TelNo, "", new { @class = "badge badge-danger" })
                 </div>
 
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Model2.AddressLine1)
-                    @Html.TextBoxFor(m => m.Model2.AddressLine1, new { @class = "form-control", @placeholder = "" })
-                    @Html.ValidationMessageFor(m => m.Model2.AddressLine1, "", new { @class = "badge badge-danger" })
+                    @Html.LabelFor(m => m.CellNo)
+                    @Html.TextBoxFor(m => m.CellNo, new { @class = "form-control", @placeholder = "" })
+                    @Html.ValidationMessageFor(m => m.CellNo, "", new { @class = "badge badge-danger" })
                 </div>
 
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Model2.AddressLine2)
-                    @Html.TextBoxFor(m => m.Model2.AddressLine2, new { @class = "form-control", @placeholder = "" })
-                    @Html.ValidationMessageFor(m => m.Model2.AddressLine2, "", new { @class = "badge badge-danger" })
+                    @Html.LabelFor(m => m.AddressLine1)
+                    @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control", @placeholder = "" })
+                    @Html.ValidationMessageFor(m => m.AddressLine1, "", new { @class = "badge badge-danger" })
                 </div>
 
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Model2.AddressLine3)
-                    @Html.TextBoxFor(m => m.Model2.AddressLine3, new { @class = "form-control", @placeholder = "" })
-                    @Html.ValidationMessageFor(m => m.Model2.AddressLine3, "", new { @class = "badge badge-danger" })
+                    @Html.LabelFor(m => m.AddressLine2)
+                    @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control", @placeholder = "" })
+                    @Html.ValidationMessageFor(m => m.AddressLine2, "", new { @class = "badge badge-danger" })
                 </div>
 
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Model2.AddressCode)
-                    @Html.TextBoxFor(m => m.Model2.AddressCode, new { @class = "form-control", @placeholder = "" })
-                    @Html.ValidationMessageFor(m => m.Model2.AddressCode, "", new { @class = "badge badge-danger" })
+                    @Html.LabelFor(m => m.AddressLine3)
+                    @Html.TextBoxFor(m => m.AddressLine3, new { @class = "form-control", @placeholder = "" })
+                    @Html.ValidationMessageFor(m => m.AddressLine3, "", new { @class = "badge badge-danger" })
                 </div>
 
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Model2.PostalAddress1)
-                    @Html.TextBoxFor(m => m.Model2.PostalAddress1, new { @class = "form-control", @placeholder = "" })
-                    @Html.ValidationMessageFor(m => m.Model2.PostalAddress1, "", new { @class = "badge badge-danger" })
+                    @Html.LabelFor(m => m.AddressCode)
+                    @Html.TextBoxFor(m => m.AddressCode, new { @class = "form-control", @placeholder = "" })
+                    @Html.ValidationMessageFor(m => m.AddressCode, "", new { @class = "badge badge-danger" })
                 </div>
 
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Model2.PostalAddress2)
-                    @Html.TextBoxFor(m => m.Model2.PostalAddress2, new { @class = "form-control", @placeholder = "" })
-                    @Html.ValidationMessageFor(m => m.Model2.PostalAddress2, "", new { @class = "badge badge-danger" })
+                    @Html.LabelFor(m => m.PostalAddress1)
+                    @Html.TextBoxFor(m => m.PostalAddress1, new { @class = "form-control", @placeholder = "" })
+                    @Html.ValidationMessageFor(m => m.PostalAddress1, "", new { @class = "badge badge-danger" })
                 </div>
 
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Model2.PostalCode)
-                    @Html.TextBoxFor(m => m.Model2.PostalCode, new { @class = "form-control", @placeholder = "" })
-                    @Html.ValidationMessageFor(m => m.Model2.PostalCode, "", new { @class = "badge badge-danger" })
+                    @Html.LabelFor(m => m.PostalAddress2)
+                    @Html.TextBoxFor(m => m.PostalAddress2, new { @class = "form-control", @placeholder = "" })
+                    @Html.ValidationMessageFor(m => m.PostalAddress2, "", new { @class = "badge badge-danger" })
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PostalCode)
+                    @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control", @placeholder = "" })
+                    @Html.ValidationMessageFor(m => m.PostalCode, "", new { @class = "badge badge-danger" })
                 </div>
 
                 <div class="form-group">

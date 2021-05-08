@@ -9,9 +9,9 @@ namespace MyApplication.Models
     public class Info
     {
         //[Required(ErrorMessage = "Required field")]
-        public String infoId { get; set; }
+        public int infoId { get; set; }
         //[Required(ErrorMessage ="Required field")]
-        public String idUser { get; set; }
+        public int idUser { get; set; }
        // [Required(ErrorMessage = "Required field")]
         public String TelNo { get; set; }
        // [Required(ErrorMessage = "Required field")]
