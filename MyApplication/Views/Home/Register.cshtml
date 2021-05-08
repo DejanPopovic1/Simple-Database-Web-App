@@ -1,0 +1,72 @@
+﻿@model MyApplication.Models.User
+
+
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row justify-content-md-center">
+    <div class="col-md-5">
+        @using (Html.BeginForm("Register", "Home", FormMethod.Post))
+        {
+            //@Html.ValidationSummary()
+            @Html.AntiForgeryToken()
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Register</div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        @Html.LabelFor(u => u.id)
+                        @Html.TextBoxFor(u => u.id, "", new { @class = "form-control", @placeholder = "ID" })
+                        @Html.ValidationMessageFor(u => u.id, "", new { @class = "badge badge-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(u => u.FirstName)
+                        @Html.TextBoxFor(u => u.FirstName, "", new { @class = "form-control", @placeholder = "First Name" })
+                        @Html.ValidationMessageFor(u => u.FirstName, "", new { @class = "badge badge-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(u => u.LastName)
+                        @Html.TextBoxFor(u => u.LastName, "", new { @class = "form-control", @placeholder = "Last Name" })
+                        @Html.ValidationMessageFor(u => u.LastName, "", new { @class = "badge badge-danger" })
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(u => u.Email)
+                        @Html.TextBoxFor(u => u.Email, "", new { @class = "form-control", @placeholder = "Email" })
+                        @Html.ValidationMessageFor(u => u.Email, "", new { @class = "badge badge-danger" })
+                        @if (ViewBag.error != null)
+                        {
+                            <span class="badge badge-danger">@ViewBag.error</span>
+                        }
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(u => u.Password)
+                        @Html.PasswordFor(u => u.Password, new { @class = "form-control", @placeholder = "Password" })
+                        @Html.ValidationMessageFor(u => u.Password, "", new { @class = "badge badge-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(u => u.ConfirmPassword)
+                        @Html.PasswordFor(u => u.ConfirmPassword, new { @class = "form-control", @placeholder = "Confim Password" })
+                        @Html.ValidationMessageFor(u => u.ConfirmPassword, "", new { @class = "badge badge-danger" })
+                    </div>
+
+
+
+
+
+
+
+
+                    <div class="form-group">
+                        <input type="submit" name="submit" class="btn btn-danger" value="Register" />
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>

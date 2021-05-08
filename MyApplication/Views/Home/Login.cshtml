@@ -1,0 +1,52 @@
+﻿@*I wont be using manual HTML tags. Instead, I will be using HTML Helpers which will render HTML controls in the razor view thus enforcing the DRY principle*@
+
+<link rel="stylesheet" href="../../Content/Site.css">
+
+@model MyApplication.Models.User
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-md-center">
+    <h1>
+        Developer Take Home Test - Question 01
+    </h1>
+    <h3>
+        Welcome, guest.
+    </h3>
+    <h3>
+        Please enter your username and password below to login
+    </h3>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                Login Details
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control", @placeholder = "Not provided - Enter here" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Password)
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Not provided - Enter here" })
+
+
+                    </div>
+                    @*using bootstrap here: *@
+                    <div class="form-group">
+                        <input type="submit" name="submit" class="btn btn-primary" value="Login" />
+                    </div>
+                    //@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    //@ViewBag.ErrorMessage
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                }
+            </div>
+        </div>
+    </div>
+</div>
