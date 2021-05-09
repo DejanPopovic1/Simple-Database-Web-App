@@ -16,6 +16,8 @@ namespace MyApplication.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        [NotMapped]
+        public string ConfirmPassword { get; set; }
 
         //public int infoId { get; set; }
         //public String idUser { get; set; }

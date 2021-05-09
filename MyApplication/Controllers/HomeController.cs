@@ -10,6 +10,8 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.Routing;
 using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Validation;
 
 namespace MyApplication.Controllers
 {
@@ -144,7 +146,7 @@ SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
         //    //string connString = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=Authentication;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\Authentication.mdf";
 
         //    //string connString = ConfigurationManager.ConnectionStrings["Test"].ToString();
-            
+
         //    var con = ConfigurationManager.ConnectionStrings["Authentication"].ToString();
 
         //    MainPageModel matchingPerson = new MainPageModel();
@@ -188,68 +190,112 @@ SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult Index(MainPageModel mpm)
         {
+            //System.Diagnostics.Debug.WriteLine("Hello, World!");
             Info inf = mpm.makeInfo();
             User usr = mpm.makeUser();
 
-            usr.FirstName = "Dean";
-            usr.LastName = "Popovic";
+            usr.FirstName = mpm.FirstName;
+            usr.LastName = mpm.LastName;
+            usr.Email = "maryscott@gmail.com";
+            //usr.Password = "awd33";
+            usr.Password = GetMD5("awd33");
+            usr.ConfirmPassword = GetMD5("awd33");
+
+            //usr.ConfirmPassword = "awd33";
             usr.idUser = 1;
             inf.infoId = 1;
             inf.idUser = 1;
 
             if (ModelState.IsValid)
             {
-                var check = _db.Users.FirstOrDefault(s => s.Email == usr.Email);
-                if (check == null)
+                _db.Entry(inf).State = EntityState.Modified;
+                _db.Entry(usr).State = EntityState.Modified;
+
+                try
                 {
-                    usr.Password = GetMD5(usr.Password);
-                    _db.Configuration.ValidateOnSaveEnabled = false;
-                    _db.Users.Add(usr);
-                    _db.Infos.Add(inf);
-                    //_db.Entry(_user).State = System.Data.Entity.EntityState.Modified;//Add in Later
                     _db.SaveChanges();
-                    return RedirectToAction("Index");
                 }
-                else
-                {
-                    ViewBag.error = "Email already exists";
-                    return View();
+                catch(DbEntityValidationException e) {
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            System.Diagnostics.Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    throw;
                 }
+
+                
+
+                return RedirectToAction("Index");
             }
-            return View();
-
-
-
-
-            //if (mpm.Model1.id == "123") {
-            //    Environment.Exit(-1);
-            //}
-            return base.Content("<div>Hello</div>", "text/html");
+            return View(mpm);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //[HttpPost]
+        ////[ValidateAntiForgeryToken]
+        //public ActionResult Index(MainPageModel mpm)
+        //{
+        //    Info inf = mpm.makeInfo();
+        //    User usr = mpm.makeUser();
+
+        //    usr.FirstName = "Dean";
+        //    usr.LastName = "Popovic";
+        //    usr.idUser = 1;
+        //    inf.infoId = 1;
+        //    inf.idUser = 1;
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        var check = _db.Users.FirstOrDefault(s => s.Email == usr.Email);
+        //        if (check == null)
+        //        {
+        //            usr.Password = GetMD5(usr.Password);
+        //            _db.Configuration.ValidateOnSaveEnabled = false;
+        //            _db.Users.Add(usr);
+        //            _db.Infos.Add(inf);
+        //            //_db.Entry(_user).State = System.Data.Entity.EntityState.Modified;//Add in Later
+        //            _db.SaveChanges();
+        //            return RedirectToAction("Index");
+        //        }
+        //        else
+        //        {
+        //            ViewBag.error = "Email already exists";
+        //            return View();
+        //        }
+        //    }
+        //    return View();
+
+
+
+
+        //    //if (mpm.Model1.id == "123") {
+        //    //    Environment.Exit(-1);
+        //    //}
+        //    return base.Content("<div>Hello</div>", "text/html");
+        //}
 
         //GET: Register
 
@@ -318,13 +364,14 @@ SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
                     Session["Email"] = data.FirstOrDefault().Email;
                     Session["idUser"] = data.FirstOrDefault().idUser;
 
+                    string idString = data.FirstOrDefault().id;
 
                     //get info from database store it in object A calls a cotnroller
                     //MainPageModel mpm = getMainPageModel("8704025959080");
 
                     //ViewData["mpm"] = mpm;
 
-                    return RedirectToAction("Index", new { id = "8704025959080"});//Pass in A as paramater
+                    return RedirectToAction("Index", new { id = idString});//Pass in A as paramater
                 }
                 else
                 {
