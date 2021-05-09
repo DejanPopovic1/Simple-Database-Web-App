@@ -24,7 +24,7 @@ namespace MyApplication.Controllers
         {
             if (Session["idUser"] != null)
             {
-                MainPageModel mpm = getMainPageModel("8704025959080");//Fetch all data from database and saves it in mpm object
+                MainPageModel mpm = getMainPageModel(id);//Fetch all data from database and saves it in mpm object
                 ViewData["mpm"] = mpm;
                 return View(mpm);
             }
@@ -37,14 +37,14 @@ namespace MyApplication.Controllers
         //I'm using parameterised queries as opposed to concatenated strings to avoid SQL Injection attacks
         public MainPageModel getMainPageModel(string idKey)
         {
-            idKey = "8704025959080";
+            //idKey = "8704025959080";
             var connString = ConfigurationManager.ConnectionStrings["Authentication"].ToString();
             MainPageModel matchingPerson = new MainPageModel();
             using (SqlConnection myConnection = new SqlConnection(connString))
             {
                 string sqlQuery = "SELECT Users.idUser, Info.idUser, id, FirstName, LastName, Password, email, Info.infoId, TelNo, CellNo, AddressLine1, AddressLine2, AddressLine3, AddressCode, PostalAddress1, PostalAddress2, PostalCode FROM Users, Info WHERE Users.idUser = Info.idUser";
                 SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
-                var idKeyParam = new SqlParameter("@idKey", SqlDbType.NVarChar) {Value = "8704025959080" };
+                var idKeyParam = new SqlParameter("@idKey", SqlDbType.NVarChar) {Value = idKey };
                 oCmd.Parameters.Add(idKeyParam);
                 myConnection.Open();
                 SqlDataReader oReader = oCmd.ExecuteReader();

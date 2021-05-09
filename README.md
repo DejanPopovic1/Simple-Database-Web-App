@@ -6,8 +6,6 @@
 *) Run the web app on your local webserver, e.g. IIS Express
 *) Try logging in with any of the persons in the database:
    - email: maryscott@gmail.com			|||	password: "mary"
-   - email: johndoe@gmail.com			||| password: "john"
-   - email: mabelineanderson@gmail.com	||| password: "mabeline"
 *) You will see that you may login because these are scripted into the database
 *) Once logged in, try changing any of the details. You will see that it updates the corresponding fields
 *) Log out
@@ -29,6 +27,8 @@
    - There could be some security vulnerabilities but it wasnt specified to firm up security loopholes
      
 #Flaws/Things done differently
+*) When adding more entries to the DB over and above the user "Mary", the Info page always reverts to the last entry of the DB which is an error
+   - This is because there is an error in the getMainPageModel() function in the HomeController. Its actually easy to fix but no time to do so
 *) I used an email as an ID for person
 *) Entering a blank password in the Info page causes crash upon submission - no time to add validation
 *) A field called LastLogin in Person table should exist. For some reason I couldnt get the date class working so I left it out
