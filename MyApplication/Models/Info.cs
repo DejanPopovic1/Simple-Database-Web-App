@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;//This is added in so that the "Required" annotations below work
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyApplication.Models
 {
     public class Info
     {
+        [Key, Column(Order = 1)]//Added
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]//Added
         //[Required(ErrorMessage = "Required field")]
         public int infoId { get; set; }
         //[Required(ErrorMessage ="Required field")]

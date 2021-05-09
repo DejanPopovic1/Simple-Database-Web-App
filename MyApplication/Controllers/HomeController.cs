@@ -24,7 +24,7 @@ namespace MyApplication.Controllers
         {
             if (Session["idUser"] != null)
             {
-                MainPageModel mpm = getMainPageModel("8704025959080");
+                MainPageModel mpm = getMainPageModel("8704025959080");//Fetch all data from database and saves it in mpm object
                 ViewData["mpm"] = mpm;
                 return View(mpm);
             }
@@ -51,7 +51,7 @@ namespace MyApplication.Controllers
             MainPageModel matchingPerson = new MainPageModel();
             using (SqlConnection myConnection = new SqlConnection(connString))
             {
-                string sqlQuery = @"Select id, FirstName, TelNo, CellNo, AddressLine1, AddressLine2, AddressLine3, AddressCode, PostalAddress1, PostalAddress2, PostalCode" +
+                string sqlQuery = @"Select idUser, infoId, id, FirstName, LastName, Email, TelNo, CellNo, AddressLine1, AddressLine2, AddressLine3, AddressCode, PostalAddress1, PostalAddress2, PostalCode" +
                                   " from Users u inner join Info i " +
                                   "on u.id = '8704025959080'";
 SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
@@ -70,8 +70,12 @@ SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
 
                 while (oReader.Read())
                 {
+                    matchingPerson.idUser = Convert.ToInt32(oReader["idUser"]);
+                    matchingPerson.infoId = Convert.ToInt32(oReader["infoId"]);
                     matchingPerson.id = oReader["id"].ToString();
                     matchingPerson.FirstName = oReader["FirstName"].ToString();
+                    matchingPerson.LastName = oReader["LastName"].ToString();
+                    matchingPerson.Email = oReader["Email"].ToString();
                     matchingPerson.TelNo = oReader["TelNo"].ToString();
                     matchingPerson.CellNo = oReader["CellNo"].ToString();
                     matchingPerson.AddressLine1 = oReader["AddressLine1"].ToString();
@@ -192,23 +196,21 @@ SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Index(MainPageModel mpm)
+        public ActionResult Index(MainPageModel mpm/*, MainPageModel mpm2*/)
+            //mpm has all fields as variables, but only the fields in theindex view are populated into mdm
+            //As a result, fn, ln, email are NULL, or dont exist/not saved
         {
             //System.Diagnostics.Debug.WriteLine("Hello, World!");
             Info inf = mpm.makeInfo();
             User usr = mpm.makeUser();
-
-            usr.FirstName = mpm.FirstName;
-            usr.LastName = mpm.LastName;
-            usr.Email = "maryscott@gmail.com";
-            //usr.Password = "awd33";
+            //usr.FirstName = mpm.FirstName;
+            //usr.LastName = "Scott";
+            //usr.Email = "maryscott@gmail.com";
             usr.Password = GetMD5("awd33");
             usr.ConfirmPassword = GetMD5("awd33");
-
-            //usr.ConfirmPassword = "awd33";
-            usr.idUser = 1;
-            inf.infoId = 1;
-            inf.idUser = 1;
+            //usr.idUser = 1;
+            //inf.infoId = 1;
+            //inf.idUser = 1;
 
             if (ModelState.IsValid)
             {
@@ -232,9 +234,6 @@ SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
                     }
                     throw;
                 }
-
-                
-
                 return RedirectToAction("Index");
             }
             return View(mpm);
@@ -365,13 +364,7 @@ SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
                     Session["idUser"] = data.FirstOrDefault().idUser;
 
                     string idString = data.FirstOrDefault().id;
-
-                    //get info from database store it in object A calls a cotnroller
-                    //MainPageModel mpm = getMainPageModel("8704025959080");
-
-                    //ViewData["mpm"] = mpm;
-
-                    return RedirectToAction("Index", new { id = idString});//Pass in A as paramater
+                    return RedirectToAction("Index", new { id = idString});//Mary's ID string used to be hardcoded in here
                 }
                 else
                 {
