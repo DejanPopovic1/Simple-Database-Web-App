@@ -12,7 +12,7 @@ namespace MyApplication.Models
 {
     public class MainPageModel
     {
-        public int idUser { get; set; }//included
+        public int idUser { get; set; }
         public string id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -21,7 +21,7 @@ namespace MyApplication.Models
         //[NotMapped]
         public string ConfirmPassword { get; set; }
 
-        public int infoId { get; set; }//included
+        public int infoId { get; set; }
         //public int idUser { get; set; }
         public String TelNo { get; set; }
         public String CellNo { get; set; }
@@ -36,7 +36,7 @@ namespace MyApplication.Models
         public User makeUser()
         {
             User u = new User();
-            u.idUser = idUser;//Added
+            u.idUser = idUser;
             u.id = id;
             u.FirstName = FirstName;
             u.LastName = LastName;
@@ -48,7 +48,7 @@ namespace MyApplication.Models
 
         public Info makeInfo() {
             Info i = new Info();
-            i.infoId = infoId;//Added
+            i.infoId = infoId;
             i.TelNo = TelNo;
             i.CellNo = CellNo;
             i.AddressLine1 = AddressLine1;
@@ -68,7 +68,6 @@ namespace MyApplication.Models
             {
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
-
                 // Convert the byte array to hexadecimal string
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < hashBytes.Length; i++)
@@ -78,14 +77,5 @@ namespace MyApplication.Models
                 return sb.ToString();
             }
         }
-
-
-
-
-
-
-
-
-
     }
 }

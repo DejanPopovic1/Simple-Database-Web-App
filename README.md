@@ -27,3 +27,8 @@
 *) Security:
    - Basic security features like Sql string parameterisation are used instead of string concatenation to prevent SQLInjection attacks
    - There could be some security vulnerabilities but it wasnt specified to firm up security loopholes
+     
+#Flaws/Things done differently
+*) I used an email as an ID for person
+*) Entering a blank password in the Info page causes crash upon submission - no time to add validation
+*) A field called LastLogin in Person table should exist. For some reason I couldnt get the date class working so I left it out

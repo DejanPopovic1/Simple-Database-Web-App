@@ -134,10 +134,7 @@
     <Compile Include="Models\MainPageModel.cs" />
     <Compile Include="Models\DB_Entities.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\Entities.cs" />
-    <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Info.cs" />
-    <Compile Include="Models\Person2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

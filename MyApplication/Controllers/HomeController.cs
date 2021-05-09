@@ -34,19 +34,10 @@ namespace MyApplication.Controllers
             }
         }
 
-
-
-
-
-
-
-
-
         //I'm using parameterised queries as opposed to concatenated strings to avoid SQL Injection attacks
         public MainPageModel getMainPageModel(string idKey)
         {
             idKey = "8704025959080";
-            //Environment.Exit((int)Convert.ToInt64(idKey));
             var connString = ConfigurationManager.ConnectionStrings["Authentication"].ToString();
             MainPageModel matchingPerson = new MainPageModel();
             using (SqlConnection myConnection = new SqlConnection(connString))
@@ -55,20 +46,10 @@ namespace MyApplication.Controllers
                 SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
                 var idKeyParam = new SqlParameter("@idKey", SqlDbType.NVarChar) {Value = "8704025959080" };
                 oCmd.Parameters.Add(idKeyParam);
-                //if (idKey == null)
-                //{
-                //    idKeyParam.Value = DBNull.Value;
-                //}
-                //oCmd.Parameters.AddWithValue("@idKey", idKey);
                 myConnection.Open();
-
-
-
                 SqlDataReader oReader = oCmd.ExecuteReader();
-
                 while (oReader.Read())
                 {
-                    //matchingPerson.idUser = Convert.ToInt32(oReader["idUser"]);
                     matchingPerson.idUser = Convert.ToInt32(oReader["idUser"]);
                     matchingPerson.infoId = Convert.ToInt32(oReader["infoId"]);
                     matchingPerson.id = oReader["id"].ToString();
@@ -85,113 +66,10 @@ namespace MyApplication.Controllers
                     matchingPerson.PostalAddress2 = oReader["PostalAddress2"].ToString();
                     matchingPerson.PostalCode = oReader["PostalCode"].ToString();
                 }
-
-
-                //matchingPerson.FirstName = oReader["FirstName"].ToString();
-                //matchingPerson.LastName = oReader["LastName"].ToString();
-                //matchingPerson.Email = oReader["Email"].ToString();
-                //matchingPerson.Password = oReader["Password"].ToString();
-                //matchingPerson.TelNo = oReader["TelNo"].ToString();
-                //matchingPerson.CellNo = oReader["CellNo"].ToString();
-                //matchingPerson.AddressLine1 = oReader["AddressLine1"].ToString();
-                //matchingPerson.AddressLine2 = oReader["AddressLine2"].ToString();
-                //matchingPerson.AddressLine3 = oReader["AddressLine3"].ToString();
-                //matchingPerson.AddressCode = oReader["AddressCode"].ToString();
-                //matchingPerson.PostalAddress1 = oReader["PostalAddress1"].ToString();
-                //matchingPerson.PostalAddress2 = oReader["PostalAddress2"].ToString();
-                //matchingPerson.PostalCode = oReader["PostalCode"].ToString();
-
-                //oCmd.ExecuteNonQuery();
-                //using (SqlDataReader oReader = oCmd.ExecuteReader())
-                //{
-                // oReader.Read();
-                // matchingPerson.FirstName = oReader["FirstName"].ToString();
-                //while (oReader.Read())
-                //{
-                //matchingPerson.id = oReader["id"].ToString();
-                //matchingPerson.FirstName = oReader["FirstName"].ToString();
-                //matchingPerson.LastName = oReader["LastName"].ToString();
-                //matchingPerson.Email = oReader["Email"].ToString();
-                //matchingPerson.Password = oReader["Password"].ToString();
-                //matchingPerson.TelNo = oReader["TelNo"].ToString();
-                //matchingPerson.CellNo = oReader["CellNo"].ToString();
-                //matchingPerson.AddressLine1 = oReader["AddressLine1"].ToString();
-                //matchingPerson.AddressLine2 = oReader["AddressLine2"].ToString();
-                //matchingPerson.AddressLine3 = oReader["AddressLine3"].ToString();
-                //matchingPerson.AddressCode = oReader["AddressCode"].ToString();
-                //matchingPerson.PostalAddress1 = oReader["PostalAddress1"].ToString();
-                //matchingPerson.PostalAddress2 = oReader["PostalAddress2"].ToString();
-                //matchingPerson.PostalCode = oReader["PostalCode"].ToString();
-                //}
                 myConnection.Close();
-                //}
             }
             return matchingPerson;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //public MainPageModel getMainPageModel(string idKey)
-        //{
-        //    //string connString = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=Authentication;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\Authentication.mdf";
-
-        //    //string connString = ConfigurationManager.ConnectionStrings["Test"].ToString();
-
-        //    var con = ConfigurationManager.ConnectionStrings["Authentication"].ToString();
-
-        //    MainPageModel matchingPerson = new MainPageModel();
-        //    using (SqlConnection myConnection = new SqlConnection(con))
-        //    {
-        //        string oString = "Select * from Users where id=@idKey";
-        //        string infoQuery = @"Select id, TelNo, CellNo, AddressLine1, AddressLine2, AddressLine3, AddressCode, PostalAddress1, PostalAddress2, PostalCode
-        //                            from Users u
-        //                            inner join Info i
-        //                            on u.idUser = i.idUser";
-        //        SqlCommand oCmd = new SqlCommand(oString, myConnection);
-        //        oCmd.Parameters.AddWithValue("@idKey", idKey);
-        //        myConnection.Open();
-        //        using (SqlDataReader oReader = oCmd.ExecuteReader())
-        //        {
-        //            while (oReader.Read())
-        //            {
-        //                matchingPerson.id = oReader["id"].ToString();
-        //                //matchingPerson.FirstName = oReader["FirstName"].ToString();
-        //                //matchingPerson.LastName = oReader["LastName"].ToString();
-        //                //matchingPerson.Email = oReader["Email"].ToString();
-        //                matchingPerson.Password = oReader["Password"].ToString();
-        //                //matchingPerson.TelNo = oReader["TelNo"].ToString();
-        //                //matchingPerson.CellNo = oReader["CellNo"].ToString();
-        //                //matchingPerson.AddressLine1 = oReader["AddressLine1"].ToString();
-        //                //matchingPerson.AddressLine2 = oReader["AddressLine2"].ToString();
-        //                //matchingPerson.AddressLine3 = oReader["AddressLine3"].ToString();
-        //                //matchingPerson.AddressCode = oReader["AddressCode"].ToString();
-        //                //matchingPerson.PostalAddress1 = oReader["PostalAddress1"].ToString();
-        //                //matchingPerson.PostalAddress2 = oReader["PostalAddress2"].ToString();
-        //                //matchingPerson.PostalCode = oReader["PostalCode"].ToString();
-        //            }
-        //            myConnection.Close();
-        //        }
-        //    }
-        //    return matchingPerson;
-        //}
-
-
-
-
-
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
@@ -200,38 +78,13 @@ namespace MyApplication.Controllers
             System.Diagnostics.Debug.WriteLine("Before Modification");
             System.Diagnostics.Debug.WriteLine(mpm.idUser);
             System.Diagnostics.Debug.WriteLine(mpm.infoId);
-
             Info inf = mpm.makeInfo();
             User usr = mpm.makeUser();
-            //usr.FirstName = mpm.FirstName;
-            //usr.LastName = "Scott";
-            //usr.Email = "maryscott@gmail.com";
-            
-            //usr.Password = GetMD5("awd33");
-            //usr.ConfirmPassword = GetMD5("awd33");
-            
-            //usr.idUser = 1;
-            //inf.infoId = 1;
-            inf.idUser = mpm.idUser;//Do not hardcode this
-
+            inf.idUser = mpm.idUser;
             if (ModelState.IsValid)
             {
                 _db.Entry(inf).State = EntityState.Modified;
                 _db.Entry(usr).State = EntityState.Modified;
-
-                System.Diagnostics.Debug.WriteLine("After Modification");
-                System.Diagnostics.Debug.WriteLine(mpm.idUser);
-                System.Diagnostics.Debug.WriteLine(mpm.infoId);
-
-
-                System.Diagnostics.Debug.WriteLine("Updated Password mpm");
-                System.Diagnostics.Debug.WriteLine(mpm.Password);
-                System.Diagnostics.Debug.WriteLine(mpm.ConfirmPassword);
-
-                System.Diagnostics.Debug.WriteLine("Updated Password usr");
-                System.Diagnostics.Debug.WriteLine(usr.Password);
-                System.Diagnostics.Debug.WriteLine(usr.ConfirmPassword);
-
                 try
                 {
                     _db.SaveChanges();
@@ -254,119 +107,22 @@ namespace MyApplication.Controllers
             return View(mpm);
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //[HttpPost]
-        ////[ValidateAntiForgeryToken]
-        //public ActionResult Index(MainPageModel mpm)
-        //{
-        //    Info inf = mpm.makeInfo();
-        //    User usr = mpm.makeUser();
-
-        //    usr.FirstName = "Dean";
-        //    usr.LastName = "Popovic";
-        //    usr.idUser = 1;
-        //    inf.infoId = 1;
-        //    inf.idUser = 1;
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        var check = _db.Users.FirstOrDefault(s => s.Email == usr.Email);
-        //        if (check == null)
-        //        {
-        //            usr.Password = GetMD5(usr.Password);
-        //            _db.Configuration.ValidateOnSaveEnabled = false;
-        //            _db.Users.Add(usr);
-        //            _db.Infos.Add(inf);
-        //            //_db.Entry(_user).State = System.Data.Entity.EntityState.Modified;//Add in Later
-        //            _db.SaveChanges();
-        //            return RedirectToAction("Index");
-        //        }
-        //        else
-        //        {
-        //            ViewBag.error = "Email already exists";
-        //            return View();
-        //        }
-        //    }
-        //    return View();
-
-
-
-
-        //    //if (mpm.Model1.id == "123") {
-        //    //    Environment.Exit(-1);
-        //    //}
-        //    return base.Content("<div>Hello</div>", "text/html");
-        //}
-
-        //GET: Register
-
         public ActionResult Register()
         {
             return View();
         }
 
-        //POST: Register
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Register(User _user)
-        {
-            
-            if (ModelState.IsValid)
-            {
-                var check = _db.Users.FirstOrDefault(s => s.Email == _user.Email);
-                if (check == null)
-                {
-                    _user.Password = GetMD5(_user.Password);
-                    _db.Configuration.ValidateOnSaveEnabled = false;
-                    _db.Users.Add(_user);
-                    //_db.Entry(_user).State = System.Data.Entity.EntityState.Modified;//Add in Later
-                    _db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ViewBag.error = "Email already exists";
-                    return View();
-                }
-
-
-            }
-            return View();
-
-
-        }
-
         public ActionResult Login()
         {
-            
             return View();
         }
 
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //We cannot pass the entire model as an argument because then we are posting the whole data set where we are actually only posting the email and password
+        //Cannot pass the entire model as an argument because then we are posting the whole data set where we are actually only posting the email and password
         public ActionResult Login(string email, string password)
         {
-            
             Console.Write("Login Failed");
-            //String email = usr.Email;
-            //String password = usr.Password;
-
             if (ModelState.IsValid)
             {
                 var f_password = GetMD5(password);
@@ -377,22 +133,17 @@ namespace MyApplication.Controllers
                     Session["FullName"] = data.FirstOrDefault().FirstName + " " + data.FirstOrDefault().LastName;
                     Session["Email"] = data.FirstOrDefault().Email;
                     Session["idUser"] = data.FirstOrDefault().idUser;
-
                     string idString = data.FirstOrDefault().id;
-                    return RedirectToAction("Index", new { id = idString});//Mary's ID string used to be hardcoded in here
+                    return RedirectToAction("Index", new { id = idString});
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The username and / or password is incorrect");//ADDED
-                    //ViewBag.ErrorMessage = "Invalid Credentials Supplied";
-
+                    ModelState.AddModelError("", "The username and / or password is incorrect");
                     return View();
-                    //return RedirectToAction("Login");
                 }
             }
             return View();
         }
-
 
         //Logout
         public ActionResult Logout()
@@ -400,8 +151,6 @@ namespace MyApplication.Controllers
             Session.Clear();//remove session
             return RedirectToAction("Login");
         }
-
-
 
         //create a string MD5
         public static string GetMD5(string str)
@@ -421,38 +170,3 @@ namespace MyApplication.Controllers
 
     }
 }
-
-
-
-
-
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Web;
-//using System.Web.Mvc;
-
-//namespace MyApplication.Controllers
-//{
-//    public class HomeController : Controller
-//    {
-//        public ActionResult Index()
-//        {
-//            return View();
-//        }
-
-//        public ActionResult About()
-//        {
-//            ViewBag.Message = "Your application description page.";
-
-//            return View();
-//        }
-
-//        public ActionResult Contact()
-//        {
-//            ViewBag.Message = "Your contact page.";
-
-//            return View();
-//        }
-//    }
-//}
