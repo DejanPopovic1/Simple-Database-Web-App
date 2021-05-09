@@ -206,8 +206,10 @@ namespace MyApplication.Controllers
             //usr.FirstName = mpm.FirstName;
             //usr.LastName = "Scott";
             //usr.Email = "maryscott@gmail.com";
-            usr.Password = GetMD5("awd33");
-            usr.ConfirmPassword = GetMD5("awd33");
+            
+            //usr.Password = GetMD5("awd33");
+            //usr.ConfirmPassword = GetMD5("awd33");
+            
             //usr.idUser = 1;
             //inf.infoId = 1;
             inf.idUser = mpm.idUser;//Do not hardcode this
@@ -221,6 +223,14 @@ namespace MyApplication.Controllers
                 System.Diagnostics.Debug.WriteLine(mpm.idUser);
                 System.Diagnostics.Debug.WriteLine(mpm.infoId);
 
+
+                System.Diagnostics.Debug.WriteLine("Updated Password mpm");
+                System.Diagnostics.Debug.WriteLine(mpm.Password);
+                System.Diagnostics.Debug.WriteLine(mpm.ConfirmPassword);
+
+                System.Diagnostics.Debug.WriteLine("Updated Password usr");
+                System.Diagnostics.Debug.WriteLine(usr.Password);
+                System.Diagnostics.Debug.WriteLine(usr.ConfirmPassword);
 
                 try
                 {

@@ -5,6 +5,8 @@ using System.Web;
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MyApplication.Models
 {
@@ -16,7 +18,7 @@ namespace MyApplication.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        [NotMapped]
+        //[NotMapped]
         public string ConfirmPassword { get; set; }
 
         public int infoId { get; set; }//included
@@ -39,7 +41,8 @@ namespace MyApplication.Models
             u.FirstName = FirstName;
             u.LastName = LastName;
             u.Email = Email;
-            u.Password = Password;
+            u.Password = CreateMD5(Password);
+            u.ConfirmPassword = CreateMD5(ConfirmPassword);
             return u;
         }
 
@@ -57,6 +60,32 @@ namespace MyApplication.Models
             i.PostalCode = PostalCode;
             return i;
         }
+
+        public static string CreateMD5(string input)
+        {
+            // Use input string to calculate MD5 hash
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                // Convert the byte array to hexadecimal string
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
+            }
+        }
+
+
+
+
+
+
+
+
 
     }
 }
