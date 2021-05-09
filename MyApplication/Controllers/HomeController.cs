@@ -51,10 +51,8 @@ namespace MyApplication.Controllers
             MainPageModel matchingPerson = new MainPageModel();
             using (SqlConnection myConnection = new SqlConnection(connString))
             {
-                string sqlQuery = @"Select idUser, infoId, id, FirstName, LastName, Email, TelNo, CellNo, AddressLine1, AddressLine2, AddressLine3, AddressCode, PostalAddress1, PostalAddress2, PostalCode" +
-                                  " from Users u inner join Info i " +
-                                  "on u.id = '8704025959080'";
-SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
+                string sqlQuery = "SELECT Users.idUser, Info.idUser, id, FirstName, LastName, Password, email, Info.infoId, TelNo, CellNo, AddressLine1, AddressLine2, AddressLine3, AddressCode, PostalAddress1, PostalAddress2, PostalCode FROM Users, Info WHERE Users.idUser = Info.idUser";
+                SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
                 var idKeyParam = new SqlParameter("@idKey", SqlDbType.NVarChar) {Value = "8704025959080" };
                 oCmd.Parameters.Add(idKeyParam);
                 //if (idKey == null)
@@ -70,6 +68,7 @@ SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
 
                 while (oReader.Read())
                 {
+                    //matchingPerson.idUser = Convert.ToInt32(oReader["idUser"]);
                     matchingPerson.idUser = Convert.ToInt32(oReader["idUser"]);
                     matchingPerson.infoId = Convert.ToInt32(oReader["infoId"]);
                     matchingPerson.id = oReader["id"].ToString();
@@ -196,11 +195,12 @@ SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Index(MainPageModel mpm/*, MainPageModel mpm2*/)
-            //mpm has all fields as variables, but only the fields in theindex view are populated into mdm
-            //As a result, fn, ln, email are NULL, or dont exist/not saved
+        public ActionResult Index(MainPageModel mpm)
         {
-            //System.Diagnostics.Debug.WriteLine("Hello, World!");
+            System.Diagnostics.Debug.WriteLine("Before Modification");
+            System.Diagnostics.Debug.WriteLine(mpm.idUser);
+            System.Diagnostics.Debug.WriteLine(mpm.infoId);
+
             Info inf = mpm.makeInfo();
             User usr = mpm.makeUser();
             //usr.FirstName = mpm.FirstName;
@@ -210,12 +210,17 @@ SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
             usr.ConfirmPassword = GetMD5("awd33");
             //usr.idUser = 1;
             //inf.infoId = 1;
-            //inf.idUser = 1;
+            inf.idUser = mpm.idUser;//Do not hardcode this
 
             if (ModelState.IsValid)
             {
                 _db.Entry(inf).State = EntityState.Modified;
                 _db.Entry(usr).State = EntityState.Modified;
+
+                System.Diagnostics.Debug.WriteLine("After Modification");
+                System.Diagnostics.Debug.WriteLine(mpm.idUser);
+                System.Diagnostics.Debug.WriteLine(mpm.infoId);
+
 
                 try
                 {
