@@ -11,7 +11,7 @@
 
 <h1>Welcome back, @mpm.FirstName</h1>
 @*<h2>Welcome to your information page</h2>*@
-<h2>Personal Details Information Page</h2>
+<h2>Personal Details Information and Editing Page</h2>
 
 @if (Session["FullName"] != null)
 {
@@ -31,15 +31,15 @@
 
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Index</div>
+                    <div class="card-title"></div>
                 </div>
                 <div class="card-body">
 
 
 
                     <div class="form-group">
-                        @Html.HiddenFor(model => model.idUser);@*Included*@
-                        @Html.HiddenFor(model => model.infoId);@*Included*@
+                        @Html.HiddenFor(model => model.idUser)@*Included*@
+                        @Html.HiddenFor(model => model.infoId)@*Included*@
 
                         @Html.LabelFor(m => m.id)
                         @Html.TextBoxFor(m => m.id, new { @class = "form-control", @placeholder = "ID" })

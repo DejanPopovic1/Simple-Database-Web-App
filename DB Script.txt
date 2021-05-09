@@ -1,0 +1,63 @@
+--If this script is run and you wish to reinitialise the DB, uncomment the following two lines and run the script again
+--DROP TABLE Info
+--DROP TABLE Users
+
+CREATE TABLE [dbo].[Users] (
+    [idUser]    INT IDENTITY (1, 1) NOT NULL,
+    [id] NVARCHAR (50) NULL,
+    [FirstName] NVARCHAR (50) NULL,
+    [LastName]  NVARCHAR (50) NULL,
+    [Email]     NVARCHAR (50) NULL,
+    [Password]  NVARCHAR (50) NULL,
+    PRIMARY KEY CLUSTERED ([idUser] ASC)
+);
+
+CREATE TABLE [dbo].[Info] (
+    [infoId]         INT    IDENTITY (1, 1)          NOT NULL,
+    [idUser]         INT           NOT NULL,
+    [TelNo]          NVARCHAR (50) NOT NULL,
+    [CellNo]         NVARCHAR (50) NOT NULL,
+    [AddressLine1]   NVARCHAR (50) NOT NULL,
+    [AddressLine2]   NVARCHAR (50) NOT NULL,
+    [AddressLine3]   NVARCHAR (50) NOT NULL,
+    [AddressCode]    NVARCHAR (50) NOT NULL,
+    [PostalAddress1] NVARCHAR (50) NOT NULL,
+    [PostalAddress2] NVARCHAR (50) NOT NULL,
+    [PostalCode]     NVARCHAR (50) NOT NULL,
+    PRIMARY KEY CLUSTERED ([infoId] ASC),
+    FOREIGN KEY ([idUser]) REFERENCES [dbo].[Users] ([idUser])
+);
+
+--Samle Entry 1
+SET IDENTITY_INSERT Users ON
+INSERT INTO Users (idUser, id, FirstName, LastName, Email, Password)
+VALUES (1, 8704025959080, 'Mary', 'Scott', 'maryscott@gmail.com', 'b8e7be5dfa2ce0714d21dcfc7d72382c')
+SET IDENTITY_INSERT Users OFF
+
+SET IDENTITY_INSERT Info ON
+INSERT INTO Info (infoId, idUser, TelNo, CellNo, AddressLine1, AddressLine2, AddressLine3, AddressCode, PostalAddress1, PostalAddress2, PostalCode)
+VALUES (1, 1, '0112330001', '0613550833', 'Unit 31, The Grove', '0 Esther Rd', 'Paulville, Johannesburg', '2100', 'PO BOX 1222', 'Paulsville', '2191')
+SET IDENTITY_INSERT Info OFF
+
+--Sample Entry 2
+SET IDENTITY_INSERT Users ON
+INSERT INTO Users (idUser, id, FirstName, LastName, Email, Password)
+VALUES (2, 9504025973580, 'John', 'Doe', 'johndoe@gmail.com', '527bd5b5d689e2c32ae974c6229ff785')
+SET IDENTITY_INSERT Users OFF
+
+SET IDENTITY_INSERT Info ON
+INSERT INTO Info (infoId, idUser, TelNo, CellNo, AddressLine1, AddressLine2, AddressLine3, AddressCode, PostalAddress1, PostalAddress2, PostalCode)
+VALUES (2, 2, '0114659615', '0722563381', 'Unit 10, The Firs', '0 Julie Rd', 'Leonville, Pretoria', '1187', 'PO BOX 2273', 'Johnestown', '2288')
+SET IDENTITY_INSERT Info OFF
+
+--Sample Entry 3
+SET IDENTITY_INSERT Users ON
+INSERT INTO Users (idUser, id, FirstName, LastName, Email, Password)
+VALUES (3, 7714025959389, 'Mabeline', 'Anderson', 'mabelineanderson@gmail.com', '912bbe6993e33783524d9ac1cca8551b')
+SET IDENTITY_INSERT Users OFF
+
+SET IDENTITY_INSERT Info ON
+INSERT INTO Info (infoId, idUser, TelNo, CellNo, AddressLine1, AddressLine2, AddressLine3, AddressCode, PostalAddress1, PostalAddress2, PostalCode)
+VALUES (3, 3, '0117778546', '0610093471', 'Unit 01, The Greens', '0 Parallel Rd', 'Grahamstown', '1188', 'PO BOX 8822', 'Meadowville', '2299')
+SET IDENTITY_INSERT Info OFF
+
