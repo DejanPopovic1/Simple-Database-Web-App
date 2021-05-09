@@ -1,4 +1,5 @@
 ﻿@model MyApplication.Models.MainPageModel
+
 @{
     var mpm = (MyApplication.Models.MainPageModel)ViewData["mpm"];
 }
@@ -12,18 +13,12 @@
 @*<h2>Welcome to your information page</h2>*@
 <h2>Personal Details Information Page</h2>
 
-
 @if (Session["FullName"] != null)
 {
     <p>Name: @Session["FullName"].ToString()</p>
     <p>Email: @Session["Email"].ToString()</p>
     <a href="@Url.Action("Logout","Home")" class="btn btn-warning">Logout</a>
 }
-
-
-
-
-
 
 <div class="row justify-content-md-center">
     <div class="col-md-5">

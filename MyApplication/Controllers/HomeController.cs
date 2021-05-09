@@ -16,18 +16,15 @@ namespace MyApplication.Controllers
     public class HomeController : Controller
     {
         private DB_Entities _db = new DB_Entities();
+
         // GET: Home
         public ActionResult Index(string id)
         {
             if (Session["idUser"] != null)
             {
-                //MainPageModel mpm = getMainPageModel(str);
-
                 MainPageModel mpm = getMainPageModel("8704025959080");
-
                 ViewData["mpm"] = mpm;
-
-                return View();
+                return View(mpm);
             }
             else
             {
@@ -52,7 +49,7 @@ namespace MyApplication.Controllers
             MainPageModel matchingPerson = new MainPageModel();
             using (SqlConnection myConnection = new SqlConnection(connString))
             {
-                string sqlQuery = @"Select id, TelNo, CellNo, AddressLine1, AddressLine2, AddressLine3, AddressCode, PostalAddress1, PostalAddress2, PostalCode" +
+                string sqlQuery = @"Select id, FirstName, TelNo, CellNo, AddressLine1, AddressLine2, AddressLine3, AddressCode, PostalAddress1, PostalAddress2, PostalCode" +
                                   " from Users u inner join Info i " +
                                   "on u.id = '8704025959080'";
 SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
@@ -72,6 +69,7 @@ SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
                 while (oReader.Read())
                 {
                     matchingPerson.id = oReader["id"].ToString();
+                    matchingPerson.FirstName = oReader["FirstName"].ToString();
                     matchingPerson.TelNo = oReader["TelNo"].ToString();
                     matchingPerson.CellNo = oReader["CellNo"].ToString();
                     matchingPerson.AddressLine1 = oReader["AddressLine1"].ToString();
