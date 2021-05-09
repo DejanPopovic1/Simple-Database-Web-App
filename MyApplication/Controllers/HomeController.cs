@@ -8,6 +8,8 @@ using MyApplication.Models;
 using System.Security.Cryptography;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Web.Routing;
+using System.Data;
 
 namespace MyApplication.Controllers
 {
@@ -15,10 +17,16 @@ namespace MyApplication.Controllers
     {
         private DB_Entities _db = new DB_Entities();
         // GET: Home
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
             if (Session["idUser"] != null)
             {
+                //MainPageModel mpm = getMainPageModel(str);
+
+                MainPageModel mpm = getMainPageModel("8704025959080");
+
+                ViewData["mpm"] = mpm;
+
                 return View();
             }
             else
@@ -35,43 +43,147 @@ namespace MyApplication.Controllers
 
 
 
-
+        //I'm using parameterised queries as opposed to concatenated strings to avoid SQL Injection attacks
         public MainPageModel getMainPageModel(string idKey)
         {
-            string connString = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=Authentication;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\Authentication.mdf";
-            var con = ConfigurationManager.ConnectionStrings[connString].ToString();
-
+            idKey = "8704025959080";
+            //Environment.Exit((int)Convert.ToInt64(idKey));
+            var connString = ConfigurationManager.ConnectionStrings["Authentication"].ToString();
             MainPageModel matchingPerson = new MainPageModel();
-            using (SqlConnection myConnection = new SqlConnection(con))
+            using (SqlConnection myConnection = new SqlConnection(connString))
             {
-                string oString = "Select * from Users where id=@idKey";
-                SqlCommand oCmd = new SqlCommand(oString, myConnection);
-                oCmd.Parameters.AddWithValue("@idKey", idKey);
+                string sqlQuery = @"Select id, TelNo, CellNo, AddressLine1, AddressLine2, AddressLine3, AddressCode, PostalAddress1, PostalAddress2, PostalCode" +
+                                  " from Users u inner join Info i " +
+                                  "on u.id = '8704025959080'";
+SqlCommand oCmd = new SqlCommand(sqlQuery, myConnection);
+                var idKeyParam = new SqlParameter("@idKey", SqlDbType.NVarChar) {Value = "8704025959080" };
+                oCmd.Parameters.Add(idKeyParam);
+                //if (idKey == null)
+                //{
+                //    idKeyParam.Value = DBNull.Value;
+                //}
+                //oCmd.Parameters.AddWithValue("@idKey", idKey);
                 myConnection.Open();
-                using (SqlDataReader oReader = oCmd.ExecuteReader())
+
+
+
+                SqlDataReader oReader = oCmd.ExecuteReader();
+
+                while (oReader.Read())
                 {
-                    while (oReader.Read())
-                    {
-                        matchingPerson.id = oReader["id"].ToString();
-                        matchingPerson.FirstName = oReader["FirstName"].ToString();
-                        matchingPerson.LastName = oReader["LastName"].ToString();
-                        matchingPerson.Email = oReader["Email"].ToString();
-                        matchingPerson.Password = oReader["Password"].ToString();
-                        matchingPerson.TelNo = oReader["TelNo"].ToString();
-                        matchingPerson.CellNo = oReader["CellNo"].ToString();
-                        matchingPerson.AddressLine1 = oReader["AddressLine1"].ToString();
-                        matchingPerson.AddressLine2 = oReader["AddressLine2"].ToString();
-                        matchingPerson.AddressLine3 = oReader["AddressLine3"].ToString();
-                        matchingPerson.AddressCode = oReader["AddressCode"].ToString();
-                        matchingPerson.PostalAddress1 = oReader["PostalAddress1"].ToString();
-                        matchingPerson.PostalAddress2 = oReader["PostalAddress2"].ToString();
-                        matchingPerson.PostalCode = oReader["PostalCode"].ToString();
-                    }
-                    myConnection.Close();
+                    matchingPerson.id = oReader["id"].ToString();
+                    matchingPerson.TelNo = oReader["TelNo"].ToString();
+                    matchingPerson.CellNo = oReader["CellNo"].ToString();
+                    matchingPerson.AddressLine1 = oReader["AddressLine1"].ToString();
+                    matchingPerson.AddressLine2 = oReader["AddressLine2"].ToString();
+                    matchingPerson.AddressLine3 = oReader["AddressLine3"].ToString();
+                    matchingPerson.AddressCode = oReader["AddressCode"].ToString();
+                    matchingPerson.PostalAddress1 = oReader["PostalAddress1"].ToString();
+                    matchingPerson.PostalAddress2 = oReader["PostalAddress2"].ToString();
+                    matchingPerson.PostalCode = oReader["PostalCode"].ToString();
                 }
+
+
+                //matchingPerson.FirstName = oReader["FirstName"].ToString();
+                //matchingPerson.LastName = oReader["LastName"].ToString();
+                //matchingPerson.Email = oReader["Email"].ToString();
+                //matchingPerson.Password = oReader["Password"].ToString();
+                //matchingPerson.TelNo = oReader["TelNo"].ToString();
+                //matchingPerson.CellNo = oReader["CellNo"].ToString();
+                //matchingPerson.AddressLine1 = oReader["AddressLine1"].ToString();
+                //matchingPerson.AddressLine2 = oReader["AddressLine2"].ToString();
+                //matchingPerson.AddressLine3 = oReader["AddressLine3"].ToString();
+                //matchingPerson.AddressCode = oReader["AddressCode"].ToString();
+                //matchingPerson.PostalAddress1 = oReader["PostalAddress1"].ToString();
+                //matchingPerson.PostalAddress2 = oReader["PostalAddress2"].ToString();
+                //matchingPerson.PostalCode = oReader["PostalCode"].ToString();
+
+                //oCmd.ExecuteNonQuery();
+                //using (SqlDataReader oReader = oCmd.ExecuteReader())
+                //{
+                // oReader.Read();
+                // matchingPerson.FirstName = oReader["FirstName"].ToString();
+                //while (oReader.Read())
+                //{
+                //matchingPerson.id = oReader["id"].ToString();
+                //matchingPerson.FirstName = oReader["FirstName"].ToString();
+                //matchingPerson.LastName = oReader["LastName"].ToString();
+                //matchingPerson.Email = oReader["Email"].ToString();
+                //matchingPerson.Password = oReader["Password"].ToString();
+                //matchingPerson.TelNo = oReader["TelNo"].ToString();
+                //matchingPerson.CellNo = oReader["CellNo"].ToString();
+                //matchingPerson.AddressLine1 = oReader["AddressLine1"].ToString();
+                //matchingPerson.AddressLine2 = oReader["AddressLine2"].ToString();
+                //matchingPerson.AddressLine3 = oReader["AddressLine3"].ToString();
+                //matchingPerson.AddressCode = oReader["AddressCode"].ToString();
+                //matchingPerson.PostalAddress1 = oReader["PostalAddress1"].ToString();
+                //matchingPerson.PostalAddress2 = oReader["PostalAddress2"].ToString();
+                //matchingPerson.PostalCode = oReader["PostalCode"].ToString();
+                //}
+                myConnection.Close();
+                //}
             }
             return matchingPerson;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //public MainPageModel getMainPageModel(string idKey)
+        //{
+        //    //string connString = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=Authentication;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\Authentication.mdf";
+
+        //    //string connString = ConfigurationManager.ConnectionStrings["Test"].ToString();
+            
+        //    var con = ConfigurationManager.ConnectionStrings["Authentication"].ToString();
+
+        //    MainPageModel matchingPerson = new MainPageModel();
+        //    using (SqlConnection myConnection = new SqlConnection(con))
+        //    {
+        //        string oString = "Select * from Users where id=@idKey";
+        //        string infoQuery = @"Select id, TelNo, CellNo, AddressLine1, AddressLine2, AddressLine3, AddressCode, PostalAddress1, PostalAddress2, PostalCode
+        //                            from Users u
+        //                            inner join Info i
+        //                            on u.idUser = i.idUser";
+        //        SqlCommand oCmd = new SqlCommand(oString, myConnection);
+        //        oCmd.Parameters.AddWithValue("@idKey", idKey);
+        //        myConnection.Open();
+        //        using (SqlDataReader oReader = oCmd.ExecuteReader())
+        //        {
+        //            while (oReader.Read())
+        //            {
+        //                matchingPerson.id = oReader["id"].ToString();
+        //                //matchingPerson.FirstName = oReader["FirstName"].ToString();
+        //                //matchingPerson.LastName = oReader["LastName"].ToString();
+        //                //matchingPerson.Email = oReader["Email"].ToString();
+        //                matchingPerson.Password = oReader["Password"].ToString();
+        //                //matchingPerson.TelNo = oReader["TelNo"].ToString();
+        //                //matchingPerson.CellNo = oReader["CellNo"].ToString();
+        //                //matchingPerson.AddressLine1 = oReader["AddressLine1"].ToString();
+        //                //matchingPerson.AddressLine2 = oReader["AddressLine2"].ToString();
+        //                //matchingPerson.AddressLine3 = oReader["AddressLine3"].ToString();
+        //                //matchingPerson.AddressCode = oReader["AddressCode"].ToString();
+        //                //matchingPerson.PostalAddress1 = oReader["PostalAddress1"].ToString();
+        //                //matchingPerson.PostalAddress2 = oReader["PostalAddress2"].ToString();
+        //                //matchingPerson.PostalCode = oReader["PostalCode"].ToString();
+        //            }
+        //            myConnection.Close();
+        //        }
+        //    }
+        //    return matchingPerson;
+        //}
 
 
 
@@ -208,9 +320,13 @@ namespace MyApplication.Controllers
                     Session["Email"] = data.FirstOrDefault().Email;
                     Session["idUser"] = data.FirstOrDefault().idUser;
 
-                    //get info from database store it in object A calls a cotnroller
 
-                    return RedirectToAction("Index");//Pass in A as paramater
+                    //get info from database store it in object A calls a cotnroller
+                    //MainPageModel mpm = getMainPageModel("8704025959080");
+
+                    //ViewData["mpm"] = mpm;
+
+                    return RedirectToAction("Index", new { id = "8704025959080"});//Pass in A as paramater
                 }
                 else
                 {
